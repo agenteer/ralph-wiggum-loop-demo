@@ -14,7 +14,7 @@ The agent builds everything from scratch. You just watch.
 
 ## Prerequisites
 
-- [Claude Code CLI](https://docs.anthropic.com/en/docs/claude-code) (subscription or API key)
+- [Claude Code CLI](https://code.claude.com/docs/en/overview) (subscription or API key)
 - Chrome (for visual testing via [Chrome integration](https://code.claude.com/docs/en/chrome))
 
 **For Plugin Approach only:**
