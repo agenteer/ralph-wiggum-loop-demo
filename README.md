@@ -1,16 +1,22 @@
 # AgentFlow Builder - Ralph Wiggum Loop Demo
 
-A demo showing [Ralph Wiggum Loop](https://ghuntley.com/ralph/) in action. Watch an AI agent build a visual workflow designer through autonomous iteration.
+Companion repository for [Ralph Wiggum Loop: The Two Architectures You Need to Understand](https://agenteer.com/blog/ralph-wiggum-loop-the-two-architectures-you-need-to-understand).
 
-## What This Demo Shows
+## What Is Ralph Wiggum Loop?
 
-Ralph Loop lets your agent work for hours while you sleep. This demo builds **AgentFlow Builder** - a drag-and-drop workflow designer - in 3 iterations:
+[Ralph Wiggum Loop](https://ghuntley.com/ralph/) is a technique created by Geoffrey Huntley that lets your AI agent persist through failures for hours—without you having to keep re-prompting it. Watch it like a fireplace, or let it run while you sleep.
+
+This repo demonstrates both approaches discussed in the article: the **plugin approach** and the **bash approach**. Same project, different loop mechanisms.
+
+## What This Demo Builds
+
+**AgentFlow Builder** - a simple drag-and-drop workflow designer - built in 3 iterations:
 
 1. **Canvas** - Dark-themed canvas with draggable nodes
 2. **Connections** - Bezier curves connecting nodes
 3. **Execution Animation** - Animated pulse through the workflow
 
-The agent builds everything from scratch. You just watch.
+The agent builds everything from scratch and verifies everything. You just watch.
 
 ## Prerequisites
 
@@ -76,16 +82,10 @@ Each iteration:
 - Marks the checkbox complete
 - Stops (the loop spawns the next iteration)
 
-## Key Insight
-
-The loop doesn't force iteration—it enables it. Without resistance to persist against (tests to pass, complexity to work through), the agent just completes in one pass.
-
-This demo is designed with clear iteration boundaries and visual testing at each step, showing the actual Ralph loops in action.
-
 ## Related
 
-- [Ralph Wiggum Loop article that explains this demo in detail](https://agenteer.com/blog/ralph-wiggum-loop-what-it-is-and-why-you-might-be-using-it-wrong) - Full explanation
 - [Geoffrey Huntley's original Ralph](https://ghuntley.com/ralph/)
+- [Huntley on "one task per loop"](https://ghuntley.com/loop/)
 - [Ryan Carson's PRD-based Ralph](https://github.com/snarktank/ralph)
 
 ## License
