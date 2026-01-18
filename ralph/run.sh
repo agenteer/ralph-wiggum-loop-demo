@@ -1,10 +1,18 @@
 #!/bin/bash
 # Ralph Loop - Bash Implementation for AgentFlow Builder
-# Usage: ./ralph/run.sh [max_iterations]
+# Usage: ./ralph/run.sh [model] [max_iterations]
+#        ./ralph/run.sh [max_iterations]  (for backward compatibility)
 
 set -e
 
-MAX_ITERATIONS=${1:-5}
+# Handle backward compatibility: if first arg is a number, treat it as iterations
+if [[ "$1" =~ ^[0-9]+$ ]]; then
+    MODEL=haiku
+    MAX_ITERATIONS=${1:-5}
+else
+    MODEL=${1:-haiku}
+    MAX_ITERATIONS=${2:-5}
+fi
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PROJECT_DIR="$(dirname "$SCRIPT_DIR")"
 
@@ -23,6 +31,7 @@ trap cleanup EXIT INT TERM
 echo "═══════════════════════════════════════════════════════════"
 echo "Ralph Loop (Bash) - AgentFlow Builder"
 echo "Max iterations: $MAX_ITERATIONS"
+echo "Model: $MODEL"
 echo "Project: $PROJECT_DIR"
 echo "═══════════════════════════════════════════════════════════"
 
@@ -48,10 +57,17 @@ for i in $(seq 1 $MAX_ITERATIONS); do
     TEMP_OUTPUT="/tmp/claude/ralph-iteration-$i.txt"
 
     # Spawn fresh Claude instance with Chrome MCP enabled
-    # --model haiku: Ensures consistent one-iteration-at-a-time behavior
-    # --dangerously-skip-permissions: Bypasses permission prompts (can't prompt in --print mode)
-    # tee: Streams to terminal AND saves to file for completion check
-    cat "$SCRIPT_DIR/prompt.md" | claude --print --chrome --model haiku --dangerously-skip-permissions 2>&1 | tee "$TEMP_OUTPUT" || true
+    # --print --verbose --output-format stream-json: Required combo for streaming
+    # jq: Parse JSON stream to show tool calls and text in real-time
+    cat "$SCRIPT_DIR/prompt.md" | claude --print --verbose --output-format stream-json --chrome --model "$MODEL" --dangerously-skip-permissions 2>&1 | tee "$TEMP_OUTPUT" | jq -r --unbuffered '
+      if .type == "assistant" then
+        .message.content[]? |
+        if .type == "tool_use" then "🔧 " + .name
+        elif .type == "text" then .text
+        else empty end
+      elif .type == "result" then "✅ Iteration complete"
+      else empty end
+    ' 2>/dev/null || true
 
     # Kill HTTP server after iteration (agent may have started one)
     pkill -f "python3 -m http.server 8080" 2>/dev/null || true
