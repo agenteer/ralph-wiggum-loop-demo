@@ -2,6 +2,8 @@
 
 Companion repository for [Ralph Wiggum Loop: The Two Architectures You Need to Understand](https://agenteer.com/blog/ralph-wiggum-loop-the-two-architectures-you-need-to-understand).
 
+**Video walkthrough:** [Watch on YouTube](https://www.youtube.com/watch?v=T_JfTji3xfc)
+
 ## What Is Ralph Wiggum Loop?
 
 [Ralph Wiggum Loop](https://ghuntley.com/ralph/) is a technique created by Geoffrey Huntley that lets your AI agent persist through failures for hours—without you having to keep re-prompting it. Watch it like a fireplace, or let it run while you sleep.
